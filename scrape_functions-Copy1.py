@@ -1,5 +1,4 @@
 import requests
-import os
 
 def get_comic_title(browser):
     """Return the title text"""
@@ -26,9 +25,3 @@ def find_image(browser):
     sel = "div#comic img"
     img = browser.find_element_by_css_selector(sel)
     return img
-
-def paste_keys(self, xpath, text):
-    import os
-    os.environ['CLIPBOARD'] = text
-    el = self.driver.find_element_by_xpath(xpath)
-    el.send_keys(Keys.COMMAND, 'v')

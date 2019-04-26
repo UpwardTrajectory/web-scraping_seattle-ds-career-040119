@@ -19,6 +19,7 @@ def get_EmpStats_Approve(browser):
     return title.text
 
 def get_stats(browser):
+    """perform all 3 data requests, and return as list"""
     stats_list = []
     stats_list.append(get_ratingNum(browser))
     stats_list.append(get_EmpStats_Recommend(browser))
