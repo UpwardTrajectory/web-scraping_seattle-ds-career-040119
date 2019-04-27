@@ -6,8 +6,16 @@ import pandas as pd
 
 def get_ratingNum(browser):
     """Return the ratingNum metric"""
-    sel = "div.ratingNum"
-    title = browser.find_element_by_css_selector(sel)
+    try:
+        sel = "div.ratingNum"
+        title = browser.find_element_by_css_selector(sel)
+    except:
+        try:
+            sel = "div.common__EIReviewsRatingsStyles__ratingNum.mb-sm.mb-md-0"
+            title = browser.find_element_by_css_selector(sel)
+        except Exception as e:
+            print(e)
+            print("error for ", company)
     return title.text
 
 def get_EmpStats_Recommend(browser):
@@ -64,15 +72,19 @@ def scrape_company_data(companies):
             sleep(4)
 
             temp_stats = [company]
-            temp_stats.append(get_stats(browser))
+            stats = get_stats(browser)
+            for stat in stats:
+                temp_stats.append(stat)
+            print(temp_stats)
             final_data.append(temp_stats)
 
             browser.get(url)
         except Exception as e:
             print(e)
+            print('error with ', company)
             url = "https://www.glassdoor.com/Reviews/index.htm"
             browser.get(url)
         
-    return pd.DataFrame(final_data)
+    return pd.DataFrame(final_data, columns=['Company', 'Rating', 'Employee Recommended', 'CEO Approval'])
         
 
